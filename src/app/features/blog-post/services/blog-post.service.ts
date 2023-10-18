@@ -17,15 +17,16 @@ export class BlogPostService {
     return this.http.post<BlogPost>(`${environment.apiBaseUrl}/api/blogpost`, data);
   }
 
-  // getAllBlogPosts(): Observable<BlogPost[]>{
-  //   return this.http.get<BlogPost[]>(`${environment.apiBaseUrl}/api/blogpost`);
-  // }
-  getAllBlogPosts(page: number, pageSize: number): Observable<BlogPost[]>{
-    return this.http.get<BlogPost[]>(`${environment.apiBaseUrl}/api/blogpost?page=${page}&pageSize=${pageSize}`);
+  getAllBlogPosts(): Observable<BlogPost[]>{
+    return this.http.get<BlogPost[]>(`${environment.apiBaseUrl}/api/blogpost`);
   }
-  
+
   getBlogPostById(id: string): Observable<BlogPost>{
     return this.http.get<BlogPost>(`${environment.apiBaseUrl}/api/blogpost/${id}`);
+  }
+
+  getBlogPostByUrlHandle(urlHandle: string): Observable<BlogPost>{
+    return this.http.get<BlogPost>(`${environment.apiBaseUrl}/api/blogpost/${urlHandle}`);
   }
 
   updateBlogPost(id: string, updatedBlogPost:UpdateBlogPost): Observable<BlogPost>{
