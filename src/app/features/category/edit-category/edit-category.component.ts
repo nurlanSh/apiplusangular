@@ -40,14 +40,14 @@ export class EditCategoryComponent implements OnInit, OnDestroy {
   }
 
   onFormSubmit(): void{
-    const UpdateCategoryRequest: UpdateCategoryRequest = {
+    const updateCategoryRequest: UpdateCategoryRequest = {
       name: this.category?.name ?? '',
       urlHandle: this.category?.urlHandle ?? ''
     };
     // pass this object to service
     if(this.id)
     {
-    this.editCategorySubscription = this.categoryService.updateCategory(this.id, UpdateCategoryRequest)
+    this.editCategorySubscription = this.categoryService.updateCategory(this.id, updateCategoryRequest)
     .subscribe({
       next: (response) =>{
         this.router.navigateByUrl('/admin/categories');
