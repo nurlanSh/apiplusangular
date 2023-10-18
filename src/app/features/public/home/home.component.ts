@@ -1,21 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { BlogPostService } from '../services/blog-post.service';
-import { Observable, map } from 'rxjs';
-import { BlogPost } from '../models/blog-post.model';
+import { BlogPostService } from '../../blog-post/services/blog-post.service';
+import { Observable, map, take } from 'rxjs';
+import { BlogPost } from '../../blog-post/models/blog-post.model';
 
 @Component({
-  selector: 'app-blogpost-list',
-  templateUrl: './blogpost-list.component.html',
-  styleUrls: ['./blogpost-list.component.css']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class BlogpostListComponent implements OnInit {
-  blogPosts$?: Observable<BlogPost[]>;
+export class HomeComponent implements OnInit {
+
+  blogs$?: Observable<BlogPost[]>;
   page: number = 1;  
-  pageSize: number = 5;  
+  pageSize: number = 6;  
   totalPageCount: number = 1; 
   totalBlogPostCount: number = 0;
-  
-  constructor(private blogPostService: BlogPostService) { }
+
+  constructor(private blogPostService: BlogPostService){
+    
+  }
   
   ngOnInit(): void {
     this.loadAllBlogPosts();
@@ -23,12 +26,12 @@ export class BlogpostListComponent implements OnInit {
 
   loadAllBlogPosts() {
     this.blogPostService.getAllBlogPosts().subscribe(
-      blogPosts => {
-        this.totalBlogPostCount = blogPosts.length;
+      (      blogs: string | any[]) => {
+        this.totalBlogPostCount = blogs.length;
         this.calculateTotalPageCount();
         this.paginateBlogPosts();
       },
-      error => {
+      (      error: any) => {
         console.error('Error loading blog posts', error);
       }
     );
@@ -39,9 +42,9 @@ export class BlogpostListComponent implements OnInit {
   }
 
   paginateBlogPosts() {
-    this.blogPosts$ = this.blogPostService.getAllBlogPosts().pipe(
+    this.blogs$ = this.blogPostService.getAllBlogPosts().pipe(
       // Paginate the data using the slice operator
-      map((blogPosts) => blogPosts.slice(
+      map((blogs) => blogs.slice(
         (this.page - 1) * this.pageSize,
         this.page * this.pageSize
       ))
@@ -74,5 +77,5 @@ export class BlogpostListComponent implements OnInit {
   
     return pages;
   }
-  
+
 }
